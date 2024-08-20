@@ -72,7 +72,7 @@ class PaintingEditorTheme {
     this.bottomBarColor = imageEditorAppBarColor,
     this.bottomBarActiveItemColor = imageEditorPrimaryColor,
     this.bottomBarInactiveItemColor = const Color(0xFFEEEEEE),
-    this.initialStrokeWidth = 10.0,
+    this.initialStrokeWidth = 5.0,
     this.initialOpacity = 1.0,
     this.initialColor = const Color(0xffff0000),
   })  : assert(initialStrokeWidth > 0, 'initialStrokeWidth must be positive'),
