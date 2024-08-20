@@ -44,7 +44,10 @@ class PaintElement {
         _drawFreeStyle(
           offsets: offsets,
           canvas: canvas,
-          painter: painter,
+          painter: painter
+            ..color = const Color(0xffF5F5F5).withOpacity(0.5)
+            ..strokeWidth = 20
+            ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10),
           scale: scale,
           freeStyleHighPerformance: freeStyleHighPerformance,
         );
@@ -60,7 +63,8 @@ class PaintElement {
             canvas, start! * scale, end! * scale, painter.strokeWidth, painter);
         break;
       case PaintModeE.rect:
-        canvas.drawRect(Rect.fromPoints(start! * scale, end! * scale), painter);
+        canvas.drawRect(Rect.fromPoints(start! * scale, end! * scale),
+            painter..color = const Color(0xffFF0000));
         break;
       case PaintModeE.circle:
         final path = Path();
