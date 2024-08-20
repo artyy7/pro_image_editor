@@ -44,7 +44,7 @@ class IconsPaintingEditor {
     this.eraser = Icons.delete_forever_outlined,
     this.bottomNavBar = Icons.edit_outlined,
     this.lineWeight = Icons.line_weight_rounded,
-    this.freeStyle = Icons.edit,
+    this.freeStyle = Icons.blur_on_outlined,
     this.arrow = Icons.arrow_right_alt_outlined,
     this.line = Icons.horizontal_rule,
     this.fill = Icons.format_color_fill,
