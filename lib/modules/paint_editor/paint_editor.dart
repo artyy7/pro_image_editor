@@ -1032,7 +1032,7 @@ class PaintingEditorState extends State<PaintingEditor>
                           ),
                         ),
                       ),
-                      _buildColorPicker(),
+                      // _buildColorPicker(),
                       if (customWidgets.paintEditor.bodyItems != null)
                         ...customWidgets.paintEditor.bodyItems!(
                             this, rebuildController.stream),
@@ -1182,45 +1182,45 @@ class PaintingEditorState extends State<PaintingEditor>
 
   /// Builds the color picker widget for selecting colors while painting.
   /// Returns a [Widget] representing the color picker.
-  Widget _buildColorPicker() {
-    if (customWidgets.paintEditor.colorPicker != null) {
-      return customWidgets.paintEditor.colorPicker!.call(
-            this,
-            rebuildController.stream,
-            paintCtrl.color,
-            colorChanged,
-          ) ??
-          const SizedBox.shrink();
-    }
-
-    return Positioned(
-      top: 10,
-      right: 0,
-      child: StreamBuilder(
-        stream: uiPickerStream.stream,
-        builder: (context, snapshot) {
-          return BarColorPicker(
-            configs: configs,
-            length: min(
-              350,
-              MediaQuery.of(context).size.height -
-                  MediaQuery.of(context).viewInsets.bottom -
-                  kToolbarHeight -
-                  kBottomNavigationBarHeight -
-                  MediaQuery.of(context).padding.top -
-                  30,
-            ),
-            horizontal: false,
-            thumbColor: Colors.white,
-            cornerRadius: 10,
-            pickMode: PickMode.color,
-            initialColor: imageEditorTheme.paintingEditor.initialColor,
-            colorListener: (int value) {
-              colorChanged(Color(value));
-            },
-          );
-        },
-      ),
-    );
-  }
+  // Widget _buildColorPicker() {
+  //   if (customWidgets.paintEditor.colorPicker != null) {
+  //     return customWidgets.paintEditor.colorPicker!.call(
+  //           this,
+  //           rebuildController.stream,
+  //           paintCtrl.color,
+  //           colorChanged,
+  //         ) ??
+  //         const SizedBox.shrink();
+  //   }
+  //
+  //   return Positioned(
+  //     top: 10,
+  //     right: 0,
+  //     child: StreamBuilder(
+  //       stream: uiPickerStream.stream,
+  //       builder: (context, snapshot) {
+  //         return BarColorPicker(
+  //           configs: configs,
+  //           length: min(
+  //             350,
+  //             MediaQuery.of(context).size.height -
+  //                 MediaQuery.of(context).viewInsets.bottom -
+  //                 kToolbarHeight -
+  //                 kBottomNavigationBarHeight -
+  //                 MediaQuery.of(context).padding.top -
+  //                 30,
+  //           ),
+  //           horizontal: false,
+  //           thumbColor: Colors.white,
+  //           cornerRadius: 10,
+  //           pickMode: PickMode.color,
+  //           initialColor: imageEditorTheme.paintingEditor.initialColor,
+  //           colorListener: (int value) {
+  //             colorChanged(Color(value));
+  //           },
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 }
