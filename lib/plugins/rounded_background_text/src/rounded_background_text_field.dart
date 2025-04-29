@@ -77,10 +77,7 @@ class RoundedBackgroundTextField extends StatefulWidget {
     this.onAppPrivateCommand,
     this.onSelectionHandleTapped,
     this.onTapOutside,
-    this.heroTag,
   });
-
-  final String? heroTag;
 
   final TextEditingController? controller;
 
@@ -469,10 +466,10 @@ class _RoundedBackgroundTextFieldState
         cursorColor ??=
             selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
         selectionColor = selectionTheme.selectionColor ??
-            cupertinoTheme.primaryColor.withOpacity(0.40);
+            cupertinoTheme.primaryColor.withValues(alpha: 0.40);
         cursorRadius ??= const Radius.circular(2.0);
         cursorOffset = Offset(
-            iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
+            iOSHorizontalOffset / MediaQuery.devicePixelRatioOf(context), 0);
         autocorrectionTextRectColor = selectionColor;
         break;
 
@@ -484,10 +481,10 @@ class _RoundedBackgroundTextFieldState
         cursorColor ??=
             selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
         selectionColor = selectionTheme.selectionColor ??
-            cupertinoTheme.primaryColor.withOpacity(0.40);
+            cupertinoTheme.primaryColor.withValues(alpha: 0.40);
         cursorRadius ??= const Radius.circular(2.0);
         cursorOffset = Offset(
-            iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
+            iOSHorizontalOffset / MediaQuery.devicePixelRatioOf(context), 0);
         break;
 
       case TargetPlatform.android:
@@ -497,7 +494,7 @@ class _RoundedBackgroundTextFieldState
         cursorOpacityAnimates = false;
         cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
         selectionColor = selectionTheme.selectionColor ??
-            theme.colorScheme.primary.withOpacity(0.40);
+            theme.colorScheme.primary.withValues(alpha: 0.40);
         break;
 
       case TargetPlatform.linux:
@@ -507,7 +504,7 @@ class _RoundedBackgroundTextFieldState
         cursorOpacityAnimates = false;
         cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
         selectionColor = selectionTheme.selectionColor ??
-            theme.colorScheme.primary.withOpacity(0.40);
+            theme.colorScheme.primary.withValues(alpha: 0.40);
         break;
     }
 
@@ -560,6 +557,7 @@ class _RoundedBackgroundTextFieldState
                   textHeightBehavior: widget.textHeightBehavior,
                   textWidthBasis: widget.textWidthBasis,
                   strutStyle: widget.strutStyle,
+                  enableHorizontalHitBox: false,
                 ),
               ),
             ),
@@ -585,84 +583,94 @@ class _RoundedBackgroundTextFieldState
         Positioned(
           child: Padding(
             padding: padding,
-            child: EditableText(
-              key: fieldKey,
-              autofocus: widget.autofocus,
-              controller: textController,
-              focusNode: _effectiveFocusNode,
-              scrollPhysics: widget.scrollPhysics,
-              scrollBehavior: widget.scrollBehavior,
-              scrollController: scrollController,
-              scrollPadding: widget.scrollPadding,
-              style: (widget.style ?? const TextStyle()).copyWith(
-                fontSize: fontSize,
-                leadingDistribution: TextLeadingDistribution.proportional,
+            child: Listener(
+              behavior: HitTestBehavior.translucent,
+              onPointerDown: textController.text.isEmpty
+                  ? (_) {
+                      if (View.of(context).viewInsets.bottom <= 0) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        _effectiveFocusNode.requestFocus();
+                      }
+                    }
+                  : null,
+              child: EditableText(
+                key: fieldKey,
+                autofocus: widget.autofocus,
+                controller: textController,
+                focusNode: _effectiveFocusNode,
+                scrollPhysics: widget.scrollPhysics,
+                scrollBehavior: widget.scrollBehavior,
+                scrollController: scrollController,
+                scrollPadding: widget.scrollPadding,
+                style: (widget.style ?? const TextStyle()).copyWith(
+                  fontSize: fontSize,
+                  leadingDistribution: TextLeadingDistribution.proportional,
+                ),
+                textAlign: widget.textAlign,
+                maxLines: widget.maxLines,
+                keyboardType: widget.keyboardType,
+                backgroundCursorColor: CupertinoColors.inactiveGray,
+                cursorColor: widget.cursorColor ??
+                    selectionTheme.cursorColor ??
+                    widget.style?.color ??
+                    foregroundColor(widget.backgroundColor) ??
+                    Colors.black,
+                cursorWidth: widget.cursorWidth,
+                cursorHeight: widget.cursorHeight,
+                cursorRadius: widget.cursorRadius,
+                paintCursorAboveText: paintCursorAboveText,
+                cursorOpacityAnimates: cursorOpacityAnimates,
+                cursorOffset: cursorOffset,
+                autocorrectionTextRectColor: autocorrectionTextRectColor,
+                textCapitalization: widget.textCapitalization,
+                keyboardAppearance: widget.keyboardAppearance,
+                textScaler: widget.textScaler,
+                enableInteractiveSelection: widget.enableInteractiveSelection,
+                selectionColor: selectionColor,
+                selectionControls:
+                    widget.selectionEnabled ? textSelectionControls : null,
+                textDirection: widget.textDirection,
+                showSelectionHandles: widget.showSelectionHandles,
+                showCursor: widget.showCursor,
+                textWidthBasis: widget.textWidthBasis,
+                textHeightBehavior: widget.textHeightBehavior,
+                autocorrect: widget.autocorrect,
+                forceLine: widget.forceLine,
+                readOnly: widget.readOnly,
+                smartDashesType: widget.smartDashesType,
+                smartQuotesType: widget.smartQuotesType,
+                enableSuggestions: widget.enableSuggestions,
+                autofillHints: widget.autofillHints,
+                autofillClient: widget.autofillClient,
+                clipBehavior: widget.clipBehavior,
+                restorationId: widget.restorationId,
+                enableIMEPersonalizedLearning:
+                    widget.enableIMEPersonalizedLearning,
+                inputFormatters: widget.inputFormatters,
+                mouseCursor: widget.mouseCursor,
+                rendererIgnoresPointer: widget.rendererIgnoresPointer,
+                obscureText: widget.obscureText,
+                obscuringCharacter: widget.obscuringCharacter,
+                textInputAction: widget.textInputAction,
+                onSelectionChanged: widget.onSelectionChanged,
+                dragStartBehavior: widget.dragStartBehavior,
+                contentInsertionConfiguration:
+                    widget.contentInsertionConfiguration,
+                contextMenuBuilder: widget.contextMenuBuilder,
+                spellCheckConfiguration: widget.spellCheckConfiguration,
+                magnifierConfiguration: widget.magnifierConfiguration,
+                undoController: widget.undoController,
+                selectionHeightStyle: widget.selectionHeightStyle,
+                selectionWidthStyle: widget.selectionWidthStyle,
+                locale: widget.locale,
+                onChanged: widget.onChanged,
+                onEditingComplete: widget.onEditingComplete,
+                onSubmitted: widget.onSubmitted,
+                onAppPrivateCommand: widget.onAppPrivateCommand,
+                onSelectionHandleTapped: widget.onSelectionHandleTapped,
+                onTapOutside: widget.onTapOutside,
+                strutStyle: widget.strutStyle,
               ),
-              textAlign: widget.textAlign,
-              maxLines: widget.maxLines,
-              keyboardType: widget.keyboardType,
-              backgroundCursorColor: CupertinoColors.inactiveGray,
-              cursorColor: widget.cursorColor ??
-                  selectionTheme.cursorColor ??
-                  widget.style?.color ??
-                  foregroundColor(widget.backgroundColor) ??
-                  Colors.black,
-              cursorWidth: widget.cursorWidth,
-              cursorHeight: widget.cursorHeight,
-              cursorRadius: widget.cursorRadius,
-              paintCursorAboveText: paintCursorAboveText,
-              cursorOpacityAnimates: cursorOpacityAnimates,
-              cursorOffset: cursorOffset,
-              autocorrectionTextRectColor: autocorrectionTextRectColor,
-              textCapitalization: widget.textCapitalization,
-              keyboardAppearance: widget.keyboardAppearance,
-              textScaler: widget.textScaler,
-              enableInteractiveSelection: widget.enableInteractiveSelection,
-              selectionColor: selectionColor,
-              selectionControls:
-                  widget.selectionEnabled ? textSelectionControls : null,
-              textDirection: widget.textDirection,
-              showSelectionHandles: widget.showSelectionHandles,
-              showCursor: widget.showCursor,
-              textWidthBasis: widget.textWidthBasis,
-              textHeightBehavior: widget.textHeightBehavior,
-              autocorrect: widget.autocorrect,
-              forceLine: widget.forceLine,
-              readOnly: widget.readOnly,
-              smartDashesType: widget.smartDashesType,
-              smartQuotesType: widget.smartQuotesType,
-              enableSuggestions: widget.enableSuggestions,
-              autofillHints: widget.autofillHints,
-              autofillClient: widget.autofillClient,
-              clipBehavior: widget.clipBehavior,
-              restorationId: widget.restorationId,
-              enableIMEPersonalizedLearning:
-                  widget.enableIMEPersonalizedLearning,
-              inputFormatters: widget.inputFormatters,
-              mouseCursor: widget.mouseCursor,
-              rendererIgnoresPointer: widget.rendererIgnoresPointer,
-              obscureText: widget.obscureText,
-              obscuringCharacter: widget.obscuringCharacter,
-              textInputAction: widget.textInputAction,
-              onSelectionChanged: widget.onSelectionChanged,
-              dragStartBehavior: widget.dragStartBehavior,
-              contentInsertionConfiguration:
-                  widget.contentInsertionConfiguration,
-              contextMenuBuilder: widget.contextMenuBuilder,
-              spellCheckConfiguration: widget.spellCheckConfiguration,
-              magnifierConfiguration: widget.magnifierConfiguration,
-              undoController: widget.undoController,
-              scribbleEnabled: widget.scribbleEnabled,
-              selectionHeightStyle: widget.selectionHeightStyle,
-              selectionWidthStyle: widget.selectionWidthStyle,
-              locale: widget.locale,
-              onChanged: widget.onChanged,
-              onEditingComplete: widget.onEditingComplete,
-              onSubmitted: widget.onSubmitted,
-              onAppPrivateCommand: widget.onAppPrivateCommand,
-              onSelectionHandleTapped: widget.onSelectionHandleTapped,
-              onTapOutside: widget.onTapOutside,
-              strutStyle: widget.strutStyle,
             ),
           ),
         ),
