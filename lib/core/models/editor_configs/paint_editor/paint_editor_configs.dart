@@ -54,6 +54,7 @@ class PaintEditorConfigs {
     this.enableModeBlur = true,
     this.enableModePixelate = true,
     this.enableModeEraser = true,
+    this.enableColorPicker = true,
     this.showToggleFillButton = true,
     this.showLineWidthAdjustmentButton = true,
     this.showOpacityAdjustmentButton = true,
@@ -120,6 +121,9 @@ class PaintEditorConfigs {
 
   /// Indicating whether the eraser option is enabled.
   final bool enableModeEraser;
+
+  /// Indicating whether the color picker is enabled.
+  final bool enableColorPicker;
 
   /// Whether to show a button for toggle the fill state.
   final bool showToggleFillButton;
@@ -258,6 +262,7 @@ class PaintEditorConfigs {
     bool? enableModePixelate,
     bool? enableModeEraser,
     bool? enableShareZoomMatrix,
+    bool? enableColorPicker,
     PaintMode? initialPaintMode,
     double? editorMinScale,
     double? editorMaxScale,
@@ -285,6 +290,7 @@ class PaintEditorConfigs {
       enableModeEraser: enableModeEraser ?? this.enableModeEraser,
       enableShareZoomMatrix:
           enableShareZoomMatrix ?? this.enableShareZoomMatrix,
+      enableColorPicker: enableColorPicker ?? this.enableColorPicker,
       showToggleFillButton: showToggleFillButton ?? this.showToggleFillButton,
       showLineWidthAdjustmentButton:
           showLineWidthAdjustmentButton ?? this.showLineWidthAdjustmentButton,

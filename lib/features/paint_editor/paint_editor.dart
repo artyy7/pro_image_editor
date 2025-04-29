@@ -831,7 +831,7 @@ class PaintEditorState extends State<PaintEditor>
         ),
       ),
 
-      /// Build Color picker
+      if (paintEditorConfigs.enableColorPicker)
       PaintEditorColorPicker(
         state: this,
         configs: configs,
