@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import '../enums/paint_editor_enum.dart';
+
 // Project imports:
 import '../models/painted_model.dart';
 
@@ -63,7 +64,8 @@ class PaintElement {
             canvas, start! * scale, end! * scale, painter.strokeWidth, painter);
         break;
       case PaintMode.rect:
-        canvas.drawRect(Rect.fromPoints(start! * scale, end! * scale), painter..color = const Color(0xffFF0000)));
+        canvas.drawRect(Rect.fromPoints(start! * scale, end! * scale),
+            painter..color = const Color(0xffFF0000));
         break;
       case PaintMode.circle:
         final path = Path();
